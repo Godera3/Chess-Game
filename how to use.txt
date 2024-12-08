@@ -10,7 +10,7 @@ Before starting, ensure you have:
 
 
   
-// Here is Steps for Each Operating System:
+// Here is Steps for Each Operating System
 
 
 // WINDOWS
@@ -45,3 +45,53 @@ Before starting, ensure you have:
     Compile the code:     g++ -std=c++17 -o chess_game "Chess.cpp"
     Run the Game:   ./chess_game
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            //  Common Issues and Fixes
+
+1. File Not Found:
+
+    Ensure Chess.cpp is in the directory you’re compiling from.
+
+
+2. Compiler Not Recognized:
+
+    Add the compiler to your system's PATH environment variable.
+
+
+Permission Issues (macOS/Linux):
+
+    If you encounter permission issues running the file, grant executable permissions: chmod +x chess_game
+
+
+                  
+
+
+
+
+
+
+
+
+
+
+                                              // Optional: Using an IDE
+
+If you prefer not to use the terminal, you can use an IDE like Visual Studio, Code::Blocks, or CLion:
+
+    Open the IDE and create a new project.
+    Add the Chess {New}.cpp file to the project.
+    Configure the compiler settings to use C++17.
+    Build and run the project directly from the IDE.
