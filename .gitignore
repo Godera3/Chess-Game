@@ -30,3 +30,23 @@
 *.exe
 *.out
 *.app
+
+# Ignore compiled binary specific to this project
+chess_game
+
+# Ignore debug logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+
+# macOS system files
+.DS_Store
+
+# Ignore VSCode settings (if applicable)
+.vscode/
+
+# Ignore build directories
+/build/
