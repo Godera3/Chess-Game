@@ -1,0 +1,23 @@
+Prerequisites (All OS)
+
+Before starting, ensure you have:
+
+    A C++ compiler (e.g., GCC, Clang, or MSVC) installed.
+    A terminal or command prompt to execute commands.
+    Access to the chess code file (Chess {New}.cpp).
+
+
+
+
+  
+// Here is Steps for Each Operating System
+
+  // WINDOWS
+  Install a Compiler:
+
+    Download and install "MinGW" or "TDM-GCC"
+    Alternatively, install Visual Studio and select "Desktop development with C++" during setup.
+
+
+  
+  
