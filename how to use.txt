@@ -10,14 +10,38 @@ Before starting, ensure you have:
 
 
   
-// Here is Steps for Each Operating System
+// Here is Steps for Each Operating System:
 
-  // WINDOWS
-  Install a Compiler:
 
+// WINDOWS
+    Install a Compiler:
     Download and install "MinGW" or "TDM-GCC"
     Alternatively, install Visual Studio and select "Desktop development with C++" during setup.
 
 
-  
-  
+    Open Command Prompt: Press "Win + R", type "cmd", and press Enter.
+    Navigate to Your Project Folder: "cd path\to\your\project"
+
+
+    Compile the Code:  g++ -std=c++17 -o chess_game "Chess.cpp"
+    And after compiling to run the code use command "chess_game" or whatever the name you used while compiling the .cpp file
+
+
+
+
+// MacOS
+    install Xcode or VSCode or use a IDE which you like.
+
+    Open your Project folder from terminal using this command: cd /path/to/your/project
+    Compile the code: g++ -std=c++17 -o chess_game "Chess.cpp"
+    And run the game using this command: ./chess_game         or whatever the name you used while compiling the .cpp file
+
+
+    
+// Linux
+    Install GCC/Clang:
+    In terminal run following commands (For Ubuntu/Debian):       sudo apt update          &         sudo apt install g++   
+    Navigate to your project folder:   cd /path/to/your/project
+    Compile the code:     g++ -std=c++17 -o chess_game "Chess.cpp"
+    Run the Game:   ./chess_game
+
