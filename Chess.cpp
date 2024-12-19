@@ -1,21 +1,19 @@
-// chess_game.cpp
 
 #include <iostream>
 #include <string>
 #include <vector>
-#include <memory> // For smart pointers
-#include <map>    // For move history
+#include <memory> 
+#include <map>  
 #include <algorithm>
 
 
-// Include organization's internal headers
-#include "_ctype.h" // For organization's internal tolower and toupper
-#include "math.h"   // For organization's internal abs
-#include <cmath>   // For organization's in
+
+#include "_ctype.h" 
+#include "math.h"   
+#include <cmath>  
 
 using namespace std;
 
-// Define piece representations using Unicode characters
 #define BLACK_ROOK "\u265C"
 #define BLACK_KNIGHT "\u265E"
 #define BLACK_BISHOP "\u265D"
@@ -32,9 +30,9 @@ using namespace std;
 
 enum PIECE_COLOR { WHITE, BLACK, NONE };
 
-class Board; // Forward declaration
+class Board; 
 
-// Base Piece class
+
 class Piece {
 public:
     PIECE_COLOR color;
@@ -47,7 +45,7 @@ public:
     virtual vector<pair<int, int>> getPossibleMoves(int row, int col, Board& board) = 0;
 };
 
-// Board class
+
 class Board {
 public:
     vector<vector<shared_ptr<Piece>>> squares;
@@ -59,18 +57,18 @@ public:
     bool isStalemate(PIECE_COLOR color);
     bool isValidPosition(int row, int col) const;
     void promotePawn(int row, int col);
-    map<string, int> moveHistory; // For draw conditions
-    string boardStateKey() const; // Generate a key representing the board state
+    map<string, int> moveHistory; 
+    string boardStateKey() const; 
 
-    // Change access specifier to public for isSquareUnderAttack
+
     bool isSquareUnderAttack(int row, int col, PIECE_COLOR attackerColor);
 
 private:
-    // Helper function to check if a move is valid, ignoring check
+  
     bool isValidMoveIgnoringCheck(int startRow, int startCol, int endRow, int endCol, PIECE_COLOR currentPlayer);
 };
 
-// Implementations of different piece types
+
 
 class Pawn : public Piece {
 public:
@@ -117,7 +115,7 @@ public:
 Board::Board() {
     squares = vector<vector<shared_ptr<Piece>>>(8, vector<shared_ptr<Piece>>(8, nullptr));
 
-    // Place black pieces
+
     squares[0][0] = make_shared<Rook>(BLACK);
     squares[0][1] = make_shared<Knight>(BLACK);
     squares[0][2] = make_shared<Bishop>(BLACK);
@@ -130,7 +128,7 @@ Board::Board() {
         squares[1][j] = make_shared<Pawn>(BLACK);
     }
 
-    // Place white pieces
+
     squares[7][0] = make_shared<Rook>(WHITE);
     squares[7][1] = make_shared<Knight>(WHITE);
     squares[7][2] = make_shared<Bishop>(WHITE);
@@ -187,7 +185,7 @@ bool Board::movePiece(int startRow, int startCol, int endRow, int endCol, PIECE_
         return false;
     }
 
-    // Move the piece
+
     auto piece = squares[startRow][startCol];
     auto capturedPiece = squares[endRow][endCol];
     squares[endRow][endCol] = piece;
@@ -195,9 +193,8 @@ bool Board::movePiece(int startRow, int startCol, int endRow, int endCol, PIECE_
     bool previousHasMoved = piece->hasMoved;
     piece->hasMoved = true;
 
-    // Check if the move leaves the king in check
     if (isInCheck(currentPlayer)) {
-        // Undo the move
+ 
         squares[startRow][startCol] = piece;
         squares[endRow][endCol] = capturedPiece;
         piece->hasMoved = previousHasMoved;
@@ -205,26 +202,26 @@ bool Board::movePiece(int startRow, int startCol, int endRow, int endCol, PIECE_
         return false;
     }
 
-    // Handle pawn promotion
+
     if (auto pawn = dynamic_pointer_cast<Pawn>(piece)) {
         if ((pawn->color == WHITE && endRow == 0) || (pawn->color == BLACK && endRow == 7)) {
             promotePawn(endRow, endCol);
         }
     }
 
-    // Record the move in the move history
+ 
     string stateKey = boardStateKey();
     moveHistory[stateKey]++;
 
     return true;
 }
 
-// Convert algebraic notation to board indices
+
 bool NOTATION_TO_INDEX(const string& notation, int& row, int& col) {
     if (notation.length() != 2) {
         return false;
     }
-    char file = __tolower(notation[0]); // Use organization's internal tolower
+    char file = __tolower(notation[0]); 
     char rank = notation[1];
     if (file < 'a' || file > 'h' || rank < '1' || rank > '8') {
         return false;
@@ -234,22 +231,22 @@ bool NOTATION_TO_INDEX(const string& notation, int& row, int& col) {
     return true;
 }
 
-// Get player move
+
 bool GET_PLAYER_MOVE(int& startRow, int& startCol, int& endRow, int& endCol) {
     string input;
     getline(cin, input);
 
-    // Ensure input is at least 5 characters long (e.g., "e2 e4")
+
     if (input.length() < 5) {
         cout << "Invalid input format. Please use the format 'e2 e4'." << endl;
         return false;
     }
 
-    // Split the input into start and end positions
+
     string startPos = input.substr(0, 2);
     string endPos = input.substr(3, 2);
 
-    // Convert positions to board indices
+
     if (!NOTATION_TO_INDEX(startPos, startRow, startCol) ||
         !NOTATION_TO_INDEX(endPos, endRow, endCol)) {
         cout << "Invalid notation. Please use the format 'e2 e4'." << endl;
@@ -263,7 +260,7 @@ void Board::promotePawn(int row, int col) {
     cout << "Pawn promotion! Choose a piece (Q, R, B, N): ";
     char choice;
     cin >> choice;
-    choice = __toupper(choice); // Use organization's internal toupper
+    choice = __toupper(choice); 
     PIECE_COLOR color = squares[row][col]->color;
     switch (choice) {
     case 'Q':
@@ -282,7 +279,7 @@ void Board::promotePawn(int row, int col) {
         cout << "Invalid choice, promoting to Queen by default." << endl;
         squares[row][col] = make_shared<Queen>(color);
     }
-    cin.ignore(); // Clear the newline character from the input buffer
+    cin.ignore();
 }
 
 bool Board::isSquareUnderAttack(int row, int col, PIECE_COLOR attackerColor) {
@@ -300,7 +297,7 @@ bool Board::isSquareUnderAttack(int row, int col, PIECE_COLOR attackerColor) {
 }
 
 bool Board::isInCheck(PIECE_COLOR color) {
-    // Find the king's position
+
     int kingRow = -1, kingCol = -1;
     for (int i = 0; i < 8 && kingRow == -1; i++) {
         for (int j = 0; j < 8; j++) {
@@ -313,7 +310,7 @@ bool Board::isInCheck(PIECE_COLOR color) {
         }
     }
     if (kingRow == -1) {
-        return true; // King not found, should not happen
+        return true; 
     }
     PIECE_COLOR opponentColor = (color == WHITE) ? BLACK : WHITE;
     return isSquareUnderAttack(kingRow, kingCol, opponentColor);
@@ -323,7 +320,7 @@ bool Board::isCheckmate(PIECE_COLOR color) {
     if (!isInCheck(color)) {
         return false;
     }
-    // For each piece of the current player, check if a valid move exists
+  
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             auto piece = squares[i][j];
@@ -338,13 +335,13 @@ bool Board::isCheckmate(PIECE_COLOR color) {
                     squares[i][j] = piece;
                     squares[move.first][move.second] = capturedPiece;
                     if (!stillInCheck) {
-                        return false; // Found a move that gets out of check
+                        return false; 
                     }
                 }
             }
         }
     }
-    return true; // No moves get the king out of check
+    return true; 
 }
 
 bool Board::isStalemate(PIECE_COLOR color) {
@@ -372,7 +369,7 @@ bool Board::isStalemate(PIECE_COLOR color) {
             }
         }
     }
-    return true; // No valid moves available
+    return true; 
 }
 
 string Board::boardStateKey() const {
