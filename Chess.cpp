@@ -1,3 +1,18 @@
+/* 
+Dear visitor...
+    This is my first big project written in any language, i chose to write this Chess Game in C++ for several reasons,
+        The biggest reason is that C++ was the first language which i started to learn.
+            Also the syntax for it (mostly for simple tasks) was easy for me to understand and remember.
+                I had to delete majority of the comments in this code because while writing this code i've used the on every single line,
+                    Well not actually in every single line but definitely on every single function, i'll add the comments later for better understanding and future improvements.
+                        
+                        I know this is not the best code ever created, but i gotta say that this "Game" or small project wasn't created to be used by someone else, 
+                            well as a good chess player i know that this "game" is far away from being called as GAME, even for me this is just bunch of logics and lines created for my own improvement in programming,
+
+                                I gotta say that even tho i used AI in order to recheck function's errors and general game bugs this project really helped me to advance, 
+                                    in future i'll try to not use AI and be fully depended on my own skills because i think that that's the best way to improve ourselfs... without depending on anyone or anything.
+                                
+*/
 
 #include <iostream>
 #include <string>
@@ -348,7 +363,7 @@ bool Board::isStalemate(PIECE_COLOR color) {
     if (isInCheck(color)) {
         return false;
     }
-    // For each piece of the current player, check if a valid move exists
+    
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             auto piece = squares[i][j];
@@ -359,11 +374,11 @@ bool Board::isStalemate(PIECE_COLOR color) {
                     squares[move.first][move.second] = piece;
                     squares[i][j] = nullptr;
                     bool stillInCheck = isInCheck(color);
-                    // Undo the move
+                 
                     squares[i][j] = piece;
                     squares[move.first][move.second] = capturedPiece;
                     if (!stillInCheck) {
-                        return false; // Found a valid move
+                        return false; 
                     }
                 }
             }
@@ -386,7 +401,7 @@ string Board::boardStateKey() const {
     return key;
 }
 
-// Implementations of piece move validation and possible moves
+
 
 bool Pawn::isValidMove(int startRow, int startCol, int endRow, int endCol, Board& board) {
     int direction = (color == WHITE) ? -1 : 1;
@@ -394,12 +409,12 @@ bool Pawn::isValidMove(int startRow, int startCol, int endRow, int endCol, Board
     int colDiff = endCol - startCol;
     auto& squares = board.squares;
 
-    // Normal move forward
+
     if (colDiff == 0 && squares[endRow][endCol] == nullptr) {
         if (rowDiff == direction) {
             return true;
         }
-        // Double move from starting position
+
         if (!hasMoved && rowDiff == 2 * direction && squares[startRow + direction][startCol] == nullptr) {
             return true;
         }
@@ -409,7 +424,8 @@ bool Pawn::isValidMove(int startRow, int startCol, int endRow, int endCol, Board
         if (squares[endRow][endCol] && squares[endRow][endCol]->color != color) {
             return true;
         }
-        // En passant can be implemented if needed
+        // En passant
+        // I'll add en-passant handler in future :)
     }
     return false;
 }
